@@ -1,4 +1,4 @@
-# Long RAG
+# RAG
 
 ## Screenshot
 
@@ -6,7 +6,7 @@
 
 ## Overview
 
-**Long RAG** is an advanced document question-answering system designed to leverage transformer models for processing and querying PDF documents. This project facilitates the ingestion of large volumes of text from PDFs, transforming them into a format suitable for effective querying.
+**RAG** is an advanced document question-answering system designed to leverage transformer models for processing and querying PDF documents. This project facilitates the ingestion of large volumes of text from PDFs, transforming them into a format suitable for effective querying.
 
 ## Features
 
