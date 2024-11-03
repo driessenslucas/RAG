@@ -1,84 +1,91 @@
-# 📚 Document Q&A with Transformer Models
+# Long RAG
 
-This project allows you to upload PDF documents and ask questions about their content using transformer models. 
+## Overview
 
-## Features
-- **Document Upload**: Easily upload multiple PDF files for processing.
-- **Interactive Q&A**: Ask questions and receive answers based on the content of the uploaded documents.
-
-### Note
-- The LLM is very chatty and may provide verbose answers. Be prepared for detailed responses to your queries.
-- Ensure your PDFs are text-searchable for best results.
-- Large documents may take longer to process.
+**Long RAG** is an advanced document question-answering system designed to leverage transformer models for processing and querying PDF documents. This project facilitates the ingestion of large volumes of text from PDFs, transforming them into a format suitable for effective querying.
 
 ## Features
 
-- Upload multiple PDF documents.
-- Ask questions about the content of the uploaded documents.
-- Utilizes state-of-the-art transformer models for efficient question answering.
-- Real-time responses through an intuitive Gradio interface.
+- **PDF Processing**: Advanced PDF text extraction using the `marker` library
+- **Document Chunking**: Intelligent text splitting for optimal processing
+- **Vector Search**: FAISS-powered similarity search for quick and accurate retrieval
+- **Conversation Memory**: Context-aware responses using conversation buffer
+- **User Interface**: Clean, intuitive Gradio interface for document upload and querying
+- **Async Support**: Asynchronous processing for better performance
+- **Error Handling**: Comprehensive logging and error management
 
-### Demo
+## Technical Stack
 
-![demo](./assets/Screenshot_2024-11-03_19-05-09.png)
-
-## Requirements
-
-Ensure you have the following packages installed:
-
-- Python 3.8 or later
-- Gradio
-- LangChain
-- Hugging Face Transformers
-- FAISS (Facebook AI Similarity Search)
+- **Language Models**: Meta Llama 3.2 3B Instruct
+- **Embeddings**: BAAI/bge-small-en-v1.5
+- **Vector Store**: FAISS
+- **PDF Processing**: marker
+- **Frontend**: Gradio
+- **Processing**: LangChain for document processing and chain management
 
 ## Installation
 
-1. Clone the repository:
+```bash
+# Clone the repository
+git clone https://github.com/driessenslucas/longRAG
+cd longRAG
 
-   ```bash
-   git clone <repository-url>
-   cd <repository-directory>
-   ```
-
-2. Install the required packages:
-
-   ```bash
-   conda env create -f environment.yml
-   ```
+# Install dependencies
+conda env create -f environment.yml
+```
 
 ## Usage
 
-1. Run the application:
+1. Start the application:
+```bash
+python app.py
+```
 
-   ```bash
-   python app.py
-   ```
+2. Access the UI at `http://localhost:7860`
 
-2. Access the Gradio interface at `http://localhost:7860`.
+3. Upload PDF documents and initialize the system
 
-3. Upload your PDF documents using the provided file upload button.
+4. Start asking questions about your documents
 
-4. Click "🚀 Initialize System" to prepare the documents for querying.
+## Configuration
 
-5. Enter your question in the "Your Question" textbox and click "🔍 Submit Question" to receive an answer.
+Key configurations are managed through the `TransformerConfig` class:
 
-## Workflow Description
+```python
+class TransformerConfig:
+    MODEL_ID = "meta-llama/Llama-3.2-3B-Instruct"
+    MAX_NEW_TOKENS = 512
+    TOP_P = 0.95
+    CONTEXT_WINDOW = 3900
+```
 
-1. **Upload Documents**: Users can upload one or more PDF files.
-2. **Initialize System**: The application processes the uploaded PDFs, extracting their content and preparing it for querying.
-3. **Query Processing**: Users can submit questions about the documents, and the system utilizes a transformer model to provide answers based on the content.
+## Error Handling
 
-### Key Components:
+The system includes comprehensive error handling and logging:
+- File processing errors are caught and reported
+- Model initialization failures are logged
+- Query processing issues are handled gracefully
 
-- **Document Processing**: PDFs are converted to text, and metadata is extracted for context.
-- **Question Answering**: A retriever model is created to fetch relevant information from the documents based on user queries.
+## API Reference
 
-## Notes
+### Main Functions
 
-- Ensure that your PDFs are text-searchable for the best results.
-- Large documents may take longer to process.
+#### `initialize_workflow_with_files(files)`
+Initializes the QA system with uploaded PDF files.
+
+#### `process_query(query: str)`
+Processes a user query against the loaded documents.
+
+#### `process_pdf(file_obj)`
+Converts PDF files to processable text documents.
+
+## Limitations
+
+- PDF files must be text-searchable
+- Large documents may require significant processing time
+- Memory usage scales with document size
+- Response quality depends on document clarity and question specificity
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
